@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +11,6 @@ class Admin extends Authenticatable
 
     protected $table = 'admins';
 
-    // Specify the fillable properties for mass assignment
     protected $fillable = [
         'lastname',
         'firstname',
@@ -22,12 +22,10 @@ class Admin extends Authenticatable
         'password_hash',
     ];
 
-    // Hide sensitive attributes from serialization
     protected $hidden = [
         'password_hash',
     ];
 
-    // Define casts for attributes
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -43,5 +41,10 @@ class Admin extends Authenticatable
             $password .= $characters[random_int(0, strlen($characters) - 1)];
         }
         return $password;
+    }
+
+    public function setPasswordHashAttribute($value)
+    {
+        $this->attributes['password_hash'] = bcrypt($value);
     }
 }

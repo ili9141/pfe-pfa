@@ -15,15 +15,13 @@ return new class extends Migration
     {
         Schema::create('professors', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');  // Reference the users table
+            $table->string('speciality')->nullable();
+            $table->foreignId('major_id')->nullable()->constrained('majors');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('professors');

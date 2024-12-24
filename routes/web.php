@@ -4,6 +4,19 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\StudentController;
 
+use App\Http\Controllers\AuthController;
+
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
+
+// Registration Routes
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register'); // Show registration form
+Route::post('/register', [RegisterController::class, 'register']);
+// Handle registration
+
 Route::prefix('students')->group(function () {
     Route::get('/', [StudentController::class, 'index']); // Get all students
     Route::post('/', [StudentController::class, 'store']); // Create a student
@@ -13,27 +26,9 @@ Route::prefix('students')->group(function () {
     Route::get('/email/{email}', [StudentController::class, 'getStudentByEmail']); // Get a student by email
 });
 
-use App\Http\Controllers\AdminController;
-
-Route::prefix('admins')->group(function () {
-    Route::post('/', [AdminController::class, 'store']); // Create a new admin
-    Route::get('/email/{email}', [AdminController::class, 'showByEmail']); // Get admin by email
-    Route::post('/login', [AdminController::class, 'login']); // Login admin
-});
-
-use App\Http\Controllers\MajorController;
-
-Route::prefix('majors')->group(function () {
-    Route::get('/', [MajorController::class, 'index']); // Get all majors
-    Route::get('/{id}', [MajorController::class, 'show']); // Get major by ID
-});
-
-use App\Http\Controllers\ProfessorController;
-
-Route::resource('professors', ProfessorController::class);
-
-
-
+// Define other routes here...
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

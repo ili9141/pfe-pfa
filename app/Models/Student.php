@@ -9,7 +9,7 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $table = 'students'; // Optional if the table name matches the plural form of the model
+    protected $table = 'students';
 
     protected $fillable = [
         'firstname',
@@ -32,6 +32,11 @@ class Student extends Model
         'resume_url',
         'portfolio_url',
     ];
+
+    public function setPasswordHashAttribute($value)
+    {
+        $this->attributes['password_hash'] = bcrypt($value);
+    }
 
     // Accessor for password generation
     public static function generateStudentPass($length = 12)

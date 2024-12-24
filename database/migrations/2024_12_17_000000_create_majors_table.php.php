@@ -11,19 +11,16 @@ return new class extends Migration
      *
      * @return void
      */
+    // Migration file: database/migrations/create_majors_table.php
     public function up()
     {
         Schema::create('majors', function (Blueprint $table) {
             $table->id();
+            $table->string('majorName');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('majors');
