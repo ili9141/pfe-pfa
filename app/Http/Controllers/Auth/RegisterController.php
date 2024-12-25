@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Admin;
 use App\Models\Professor;
 use App\Models\Student;
-use App\Models\Major; // Import the Major model
+use App\Models\Major;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -43,21 +43,24 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
+
         // Create the user (generic fields shared by all roles)
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'password' => bcrypt($request->password), // bcrypt password directly
             'date_of_birth' => $request->date_of_birth,
             'phone_number' => $request->phone_number,
             'cin' => $request->cin,
         ]);
+
         if ($user) {
             Log::info('User created successfully: ' . $user->id);
         } else {
             Log::error('Failed to create user');
         }
+
         // Process based on user role
         if ($request->user_role == 'admin') {
             Admin::create([
@@ -68,7 +71,6 @@ class RegisterController extends Controller
                 'phone_number' => $user->phone_number,
                 'date_of_birth' => $user->date_of_birth,
                 'cin' => $user->cin,
-                'password_hash' => $user->password, // Store the hashed password
                 'profile_picture_url' => $request->profile_picture ? $request->profile_picture->store('profile_pictures') : null,
             ]);
         } elseif ($request->user_role == 'professor') {
@@ -80,7 +82,6 @@ class RegisterController extends Controller
                 'phone_number' => $user->phone_number,
                 'date_of_birth' => $user->date_of_birth,
                 'cin' => $user->cin,
-                'password_hash' => $user->password, // Store the hashed password
                 'speciality' => $request->speciality,
                 'major_id' => $request->major,  // Store selected major id
                 'profile_picture_url' => $request->profile_picture ? $request->profile_picture->store('profile_pictures') : null,
@@ -88,13 +89,6 @@ class RegisterController extends Controller
         } elseif ($request->user_role == 'student') {
             Student::create([
                 'user_id' => $user->id,
-                'firstname' => $user->firstname,
-                'lastname' => $user->lastname,
-                'email' => $user->email,
-                'password_hash' => $user->password, // Store the hashed password
-                'date_of_birth' => $user->date_of_birth,
-                'phone_number' => $user->phone_number,
-                'cin' => $user->cin,
                 'year' => $request->year,
                 'major_id' => $request->major,  // Store selected major id
                 'profile_picture_url' => $request->profile_picture ? $request->profile_picture->store('profile_pictures') : null,

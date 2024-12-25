@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -57,6 +66,17 @@
                         <div class="form-group">
                             <label for="profile_picture">Profile Picture</label>
                             <input type="file" name="profile_picture" id="profile_picture" class="form-control" accept="image/*">
+                        </div>
+
+                        <!-- Password and Confirm Password Fields -->
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password_confirmation">Confirm Password</label>
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirm Password" required>
                         </div>
 
                         <!-- Conditional Fields for Professor -->
