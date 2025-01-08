@@ -9,7 +9,6 @@ use App\Models\Admin;
 use App\Models\Professor;
 use App\Models\Student;
 use App\Models\Major;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -34,7 +33,6 @@ class RegisterController extends Controller
             'date_of_birth' => 'required|date',
             'phone_number' => 'nullable|string|max:20',
             'profile_picture' => 'nullable|image|max:2048',
-            // Add validation for major selection
             'major' => 'required_if:user_role,professor,student|exists:majors,id', // Ensure major is selected for professors and students
         ]);
     }
