@@ -7,7 +7,6 @@
             <div class="card">
                 <div class="card-header bg-white text-center">
                     <img src="{{ asset('images/logo.png') }}" alt="Logo" class="img-fluid mb-3" style="max-width: 150px;">
-
                     <h3>Login</h3>
                 </div>
 
@@ -65,4 +64,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

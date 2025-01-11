@@ -47,7 +47,7 @@ class RegisterController extends Controller
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'email' => $request->email,
-            'password' => bcrypt($request->password), // bcrypt password directly
+            'password' => $request->password, // Let the setPasswordAttribute handle hashing
             'date_of_birth' => $request->date_of_birth,
             'phone_number' => $request->phone_number,
             'cin' => $request->cin,
@@ -69,6 +69,7 @@ class RegisterController extends Controller
                 'phone_number' => $user->phone_number,
                 'date_of_birth' => $user->date_of_birth,
                 'cin' => $user->cin,
+                'password_hash' => $user->password, // Use the hashed password from the `User` model
                 'profile_picture_url' => $request->profile_picture ? $request->profile_picture->store('profile_pictures') : null,
             ]);
         } elseif ($request->user_role == 'professor') {
@@ -87,6 +88,9 @@ class RegisterController extends Controller
         } elseif ($request->user_role == 'student') {
             Student::create([
                 'user_id' => $user->id,
+                'firstname' => $user->firstname, // Add firstname
+                'lastname' => $user->lastname,   // Add lastname
+                'email' => $user->email,         // Add email
                 'year' => $request->year,
                 'major_id' => $request->major,  // Store selected major id
                 'profile_picture_url' => $request->profile_picture ? $request->profile_picture->store('profile_pictures') : null,

@@ -24,13 +24,6 @@ class Student extends Model
         'department',
         'year',
         'major',
-        'assigned_professor_id',
-        'internship_status',
-        'company_name',
-        'start_date',
-        'end_date',
-        'resume_url',
-        'portfolio_url',
     ];
 
     public function setPasswordHashAttribute($value)
